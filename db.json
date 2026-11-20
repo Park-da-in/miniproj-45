@@ -1,0 +1,53 @@
+{
+  "books": [
+    {
+      "id": "1",
+      "title": "너와 다시, 봄",
+      "author": "김서연",
+      "likes": 0,
+      "content": "다시 시작되는 우리들의 봄 이야기",
+      "type": "로맨스",
+      "coverImageUrl": "",
+      "createdAt": "2026-11-21T09:00:00.000Z",
+      "updatedAt": "2026-11-20T07:02:47.042Z",
+      "liked": false
+    },
+    {
+      "id": "2",
+      "title": "별이 머무는 곳",
+      "author": "박지은",
+      "likes": 0,
+      "content": "그 밤, 별이 머문 자리",
+      "type": "판타지",
+      "coverImageUrl": "",
+      "createdAt": "2026-11-22T09:00:00.000Z",
+      "updatedAt": "2026-11-22T09:00:00.000Z",
+      "liked": false
+    },
+    {
+      "id": "3",
+      "title": "여름의 끝에서",
+      "author": "최민지",
+      "likes": 0,
+      "content": "언제나 여름은 끝나지 않을 것만 같았는데",
+      "type": "에세이",
+      "coverImageUrl": "",
+      "createdAt": "2026-11-23T09:00:00.000Z",
+      "updatedAt": "2026-11-23T09:00:00.000Z",
+      "liked": false
+    },
+    {
+      "title": "1",
+      "author": "1",
+      "type": "자기계발",
+      "content": "11",
+      "coverImageUrl": "",
+      "likes": 0,
+      "liked": false,
+      "createdAt": "2026-11-20T06:39:41.440Z",
+      "updatedAt": "2026-11-20T06:39:41.440Z",
+      "id": "y3hDn9Sgflo"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
