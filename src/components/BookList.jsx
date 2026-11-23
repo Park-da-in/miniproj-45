@@ -39,6 +39,9 @@ function BookList({ books, onSelect, onLike, onAdd }) {
             <span className="book-genre">
               {book.type}
             </span>
+            <span style={{ float: 'right', color: 'var(--sub-text-color)', fontSize: '12px' }}>
+              {book.createdAt ? new Date(book.createdAt).toLocaleDateString('ko-KR') : ''}
+            </span>
 
             {/* 좋아요 및 상세보기 */}
             <div className="book-card-bottom">
