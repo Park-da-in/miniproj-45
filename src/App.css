@@ -1037,39 +1037,3 @@ button {
   }
 
 }
-
-.top-header {
-  flex-wrap: wrap;
-}
-
-.reading-controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-
-.reading-controls button {
-  padding: 8px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-  background: var(--card-color);
-  color: var(--text-color);
-  cursor: pointer;
-}
-
-.reading-controls button[aria-pressed="true"] {
-  border-color: var(--main-color);
-  font-weight: 700;
-}
-
-.app-layout[data-large-text="true"] :is(
-  p, small, label, button, input, select, textarea, .book-genre,
-  .breadcrumb, .total-books, .cover-placeholder strong, .popular-info strong
-) {
-  font-size: 1.125rem;
-}
-
-.app-layout[data-large-text="true"] h3 {
-  font-size: 1.25rem;
-}
