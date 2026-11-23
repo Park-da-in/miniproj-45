@@ -34,6 +34,9 @@ function App() {
   // 수정할 도서
   const [editBook, setEditBook] = useState(null)
 
+  // 테마
+  const [theme, setTheme] = useState('sage')
+
 
   // =========================
   // 1. 도서 목록 조회 GET
@@ -266,7 +269,7 @@ function App() {
   // =========================
 
   return (
-    <div className="app-layout">
+    <div className="app-layout" data-theme={theme}>
 
       {/* 왼쪽 메뉴 */}
       <aside className="sidebar">
@@ -290,6 +293,17 @@ function App() {
             ✧ AI Integration
           </button>
 
+          <button>
+            ⚙︎ Settings
+          </button>
+
+          {/* 테마 변경 버튼 추가 */}
+      <div className="theme-buttons">
+        <button onClick={() => setTheme('sage')}>Sage</button>
+        <button onClick={() => setTheme('ivory')}>Ivory</button>
+        <button onClick={() => setTheme('forest')}>Forest</button>
+        <button onClick={() => setTheme('dark')}>Dark</button>
+      </div>
 
         </nav>
 
@@ -320,10 +334,20 @@ function App() {
           >
             <option value="전체">전체 종류</option>
             <option value="로맨스">로맨스</option>
-            <option value="판타지">판타지</option>
-            <option value="에세이">에세이</option>
-            <option value="소설">소설</option>
+            <option value="판타지 / 무협">판타지 / 무협</option>
+            <option value="추리 / 미스터리 / 스릴러">추리 / 미스터리 / 스릴러</option>
+            <option value="공포 / 호러 / 오컬트">공포 / 호러 / 오컬트</option>
             <option value="자기계발">자기계발</option>
+            <option value="라이트노벨">라이트노벨</option>
+            <option value="에세이">에세이</option>
+            <option value="경제 / 경영 / 재테크">경제 / 경영 / 재테크</option>
+            <option value="인문 / 철학 / 역사">인문 / 철학 / 역사</option>
+            <option value="SF">SF</option>
+            <option value="과학 / 기술">과학 / 기술</option>
+            <option value="사회 / 정치">사회 / 정치</option>
+            <option value="예술 / 대중문화">예술 / 대중문화</option>
+            <option value="실용 / 취미">실용 / 취미</option>
+            <option value="시 / 희곡">시 / 희곡</option>
           </select>
 
         </header>

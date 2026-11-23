@@ -10,6 +10,1110 @@
 }
 
 body {
+/* ========================================
+   1. 기본 설정 및 글씨체
+======================================== */
+
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: 'Pretendard', sans-serif;
+  letter-spacing: -0.3px;
+  color: var(--text-color);
+  background: var(--background-color);
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  background-color: #171e19;
+}
+
+
+/* ========================================
+   2. 테마 색상 설정
+   여기만 수정하면 사이트 전체 색상 변경 가능
+======================================== */
+
+/* 기본 테마 : Sage Green */
+:root {
+  --main-color: #52785a;
+  --main-dark: #315a3a;
+  --main-light: #e5eee4;
+
+  --background-color: #f4f6f1;
+  --card-color: #ffffff;
+
+  --text-color: #303a32;
+  --sub-text-color: #899389;
+
+  --border-color: #e1e8df;
+  --hover-color: #edf4eb;
+
+  --like-color: #ba7777;
+  --leaf-color: #315a3a;
+  --leaf-blend: multiply;
+  --leaf-opacity: 0.18;
+}
+
+/* 아이보리 테마 */
+.app-layout[data-theme="ivory"] {
+  --main-color: #a58b65;
+  --main-dark: #806746;
+  --main-light: #f0e8d9;
+
+  --background-color: #f8f5ed;
+  --card-color: #fffdf8;
+
+  --text-color: #40392f;
+  --sub-text-color: #9b9181;
+
+  --border-color: #e9e0d2;
+  --hover-color: #f4eee2;
+
+  --like-color: #bd7777;
+  --leaf-color: #806746;
+  --leaf-blend: multiply;
+  --leaf-opacity: 0.15;
+}
+
+/* 포레스트 테마 */
+.app-layout[data-theme="forest"] {
+  --main-color: #37634a;
+  --main-dark: #20452f;
+  --main-light: #dce9df;
+
+  --background-color: #edf2ed;
+  --card-color: #ffffff;
+
+  --text-color: #26392d;
+  --sub-text-color: #819287;
+
+  --border-color: #d9e4da;
+  --hover-color: #e6efe7;
+
+  --like-color: #bd7777;
+  --leaf-color: #20452f;
+  --leaf-blend: multiply;
+  --leaf-opacity: 0.20;
+}
+
+/* 다크모드 테마 */
+.app-layout[data-theme="dark"] {
+  --main-color: #91b99a;
+  --main-dark: #b1d2b5;
+  --main-light: #293b30;
+
+  --background-color: #171e19;
+  --card-color: #222c25;
+
+  --text-color: #e4ebe5;
+  --sub-text-color: #a0ada3;
+
+  --border-color: #39483d;
+  --hover-color: #303e34;
+
+  --like-color: #e69a9a;
+  --leaf-color: #91b99a;
+  --leaf-blend: screen;
+  --leaf-opacity: 0.16;
+}
+.app-layout {
+  width: 100%;
+  min-height: 100vh;
+}
+.app-layout[data-theme="dark"] .main-content h1,
+.app-layout[data-theme="dark"] .main-content h2,
+.app-layout[data-theme="dark"] .main-content h3 {
+  color: #e4ffeb;
+}
+
+
+/* ========================================
+   3. 전체 레이아웃
+======================================== */
+
+.app-layout {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--background-color);
+  color: var(--text-color);
+}
+
+
+/* ========================================
+   4. 몬스테라 배경 장식
+======================================== */
+
+/* 오른쪽 위 몬스테라 */
+.app-layout::before {
+  content: "";
+  position: fixed;
+
+  top: -50px;
+  right: -50px;
+
+  width: 340px;
+  height: 420px;
+
+  background-image: url('/images/monstera.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right top;
+
+  opacity: var(--leaf-opacity);
+  mix-blend-mode: var(--leaf-blend);
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 왼쪽 아래 몬스테라 */
+.app-layout::after {
+  content: "";
+  position: fixed;
+
+  bottom: -120px;
+  left: 150px;
+
+  width: 300px;
+  height: 350px;
+
+  background-image: url('/images/monstera.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: left bottom;
+
+  opacity: var(--leaf-opacity);
+  mix-blend-mode: var(--leaf-blend);
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 실제 콘텐츠는 배경보다 위에 배치 */
+.sidebar,
+.main-content {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ========================================
+   5. 왼쪽 사이드바
+======================================== */
+
+.sidebar {
+  width: 220px;
+  min-width: 220px;
+  min-height: 100vh;
+  padding: 25px 15px;
+
+  display: flex;
+  flex-direction: column;
+
+  background: var(--card-color);
+  border-right: 1px solid var(--border-color);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-bottom: 45px;
+
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--main-dark);
+  
+}
+
+.brand-icon {
+  padding: 5px 10px;
+  border-radius: 4px;
+
+  background: var(--main-dark);
+  color: white;
+}
+
+.side-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.side-menu button {
+  padding: 13px;
+
+  text-align: left;
+
+  background: transparent;
+  border: none;
+  border-radius: 5px;
+
+  color: var(--text-color);
+  font-size: 14px;
+
+  transition: 0.2s;
+}
+
+.side-menu button:hover,
+.side-menu button.active {
+  background: var(--hover-color);
+  color: var(--main-dark);
+  font-weight: 600;
+}
+
+/* 프로필 */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: auto;
+  padding: 10px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 25px;
+}
+
+.profile-avatar {
+  width: 35px;
+  height: 35px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 50%;
+  background: var(--main-dark);
+  color: white;
+}
+
+.profile strong,
+.profile small {
+  display: block;
+}
+
+.profile strong {
+  font-size: 12px;
+}
+
+.profile small {
+  margin-top: 4px;
+  color: var(--sub-text-color);
+  font-size: 10px;
+}
+
+
+/* ========================================
+   6. 메인 콘텐츠
+======================================== */
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+  padding: 25px 35px;
+  background: transparent;
+}
+
+
+/* ========================================
+   7. 상단 검색창
+======================================== */
+
+.top-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  margin-bottom: 40px;
+}
+
+.search-box {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 0 15px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 25px;
+
+  background: var(--card-color);
+}
+
+.search-box span {
+  color: var(--main-color);
+  font-size: 20px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 12px 0;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+  color: var(--text-color);
+}
+
+.filter-button {
+  padding: 11px 15px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+
+  background: var(--card-color);
+  color: var(--text-color);
+}
+
+
+/* ========================================
+   8. 페이지 제목
+======================================== */
+
+.page-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  margin-bottom: 35px;
+  padding: 0;
+
+  text-align: left;
+}
+
+.breadcrumb {
+  color: var(--sub-text-color);
+  font-size: 12px;
+}
+
+.page-title h1 {
+  margin: 10px 0;
+
+  text-align: left;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.page-title p {
+  margin: 0;
+
+  text-align: left;
+  color: var(--sub-text-color);
+  font-size: 14px;
+}
+
+.total-books {
+  padding: 8px 12px;
+
+  background: var(--main-light);
+  color: var(--main-dark);
+
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+
+/* ========================================
+   9. 섹션 제목
+======================================== */
+
+.section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.section-title h2 {
+  margin: 0 0 6px;
+
+  text-align: left;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.section-title p {
+  margin: 0;
+
+  text-align: left;
+  color: var(--sub-text-color);
+  font-size: 12px;
+}
+
+.top-label {
+  color: var(--main-color);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+/* ========================================
+   10. 인기 도서 TOP 3
+======================================== */
+
+.popular-section {
+  margin-bottom: 35px;
+  padding: 22px;
+
+  background: var(--main-light);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+
+  text-align: left;
+}
+
+.popular-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.popular-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px;
+
+  background: var(--card-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.popular-rank {
+  color: var(--main-color);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.popular-cover {
+  width: 40px;
+  height: 50px;
+  flex-shrink: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+  background: var(--main-light);
+}
+
+.popular-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.popular-info {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.popular-info strong,
+.popular-info small {
+  display: block;
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.popular-info strong {
+  font-size: 12px;
+}
+
+.popular-info small {
+  margin-top: 5px;
+  color: var(--sub-text-color);
+  font-size: 10px;
+}
+
+.popular-like {
+  color: var(--like-color);
+  font-size: 11px;
+}
+
+
+/* ========================================
+   11. 도서 목록
+======================================== */
+
+.library-section {
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 25px 20px;
+
+  align-items: start;
+}
+
+.book-card {
+  min-width: 0;
+  background: var(--card-color);
+  border-radius: 4px;
+}
+
+.book-cover {
+  height: 180px;
+  padding: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: var(--main-light);
+  border-radius: 4px;
+
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.book-cover img {
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 이미지가 없는 책의 임시 표지 */
+.cover-placeholder {
+  width: 90px;
+  height: 130px;
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  background: var(--main-light);
+  color: var(--main-dark);
+
+  text-align: center;
+  box-shadow: 0 3px 8px #00000020;
+}
+
+.cover-placeholder strong {
+  font-size: 12px;
+}
+
+.cover-placeholder small {
+  font-size: 10px;
+}
+
+/* 도서 정보 */
+.book-info {
+  padding: 12px 0;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.book-info h3 {
+  margin: 0 0 7px;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.book-info p {
+  margin: 0 0 10px;
+
+  color: var(--sub-text-color);
+  font-size: 12px;
+}
+
+.book-genre {
+  padding: 4px 8px;
+
+  background: var(--main-light);
+  color: var(--main-dark);
+
+  font-size: 10px;
+  border-radius: 3px;
+}
+
+/* 좋아요 및 상세보기 */
+.book-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 13px;
+  padding-top: 9px;
+
+  border-top: 1px solid var(--border-color);
+}
+
+.like-button {
+  border: none;
+  background: transparent;
+
+  color: var(--sub-text-color);
+  font-size: 13px;
+}
+
+.like-button.liked {
+  color: var(--like-color);
+}
+
+.detail-button {
+  padding: 5px 9px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+
+  background: var(--card-color);
+  color: var(--main-dark);
+
+  font-size: 10px;
+}
+
+
+/* ========================================
+   12. 도서 생성 카드
+======================================== */
+
+.add-book-card {
+  width: 100%;
+  height: 350px;
+  min-height: 350px;
+
+  margin: 0;
+  padding: 15px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  border: 1px dashed var(--border-color);
+  border-radius: 4px;
+
+  background: var(--card-color);
+  color: var(--text-color);
+
+  transition: 0.2s;
+}
+
+.add-book-card:hover {
+  background: var(--hover-color);
+  border-color: var(--main-color);
+}
+
+.add-icon {
+  width: 45px;
+  height: 45px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 50%;
+
+  background: var(--main-dark);
+  color: white;
+
+  font-size: 28px;
+}
+
+.add-book-card strong {
+  font-size: 13px;
+}
+
+.add-book-card small {
+  color: var(--sub-text-color);
+  font-size: 11px;
+}
+
+
+/* ========================================
+   13. 모달 공통 디자인
+======================================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+
+  background: #00000070;
+  z-index: 100;
+}
+
+.book-modal {
+  width: 100%;
+  max-width: 450px;
+  max-height: 90vh;
+
+  overflow-y: auto;
+  padding: 25px;
+
+  background: var(--card-color);
+  color: var(--text-color);
+
+  border-radius: 7px;
+}
+
+.book-modal h2 {
+  margin-top: 0;
+  color: var(--main-dark);
+}
+
+.book-modal > p {
+  color: var(--sub-text-color);
+  font-size: 12px;
+}
+
+
+/* ========================================
+   14. 도서 입력 폼
+======================================== */
+
+.book-form {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.book-form label {
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.book-form input,
+.book-form select,
+.book-form textarea {
+  width: 100%;
+  padding: 11px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+
+  background: var(--card-color);
+  color: var(--text-color);
+
+  outline: none;
+}
+
+.book-form input:focus,
+.book-form select:focus,
+.book-form textarea:focus {
+  border-color: var(--main-color);
+}
+
+.book-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+
+/* ========================================
+   15. 등록 및 수정 버튼
+======================================== */
+
+.form-buttons {
+  display: flex;
+  gap: 8px;
+
+  margin-top: 18px;
+}
+
+.form-buttons button {
+  flex: 1;
+  padding: 11px;
+
+  border: none;
+  border-radius: 4px;
+
+  font-size: 13px;
+}
+
+.save-button {
+  background: var(--main-dark);
+  color: white;
+}
+
+.save-button:hover {
+  opacity: 0.9;
+}
+
+.cancel-button {
+  background: var(--main-light);
+  color: var(--main-dark);
+}
+
+.delete-button {
+  background: #a94a43;
+  color: white;
+}
+
+
+/* ========================================
+   16. 도서 상세 정보
+======================================== */
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-button {
+  border: none;
+  background: transparent;
+
+  color: var(--text-color);
+  font-size: 25px;
+}
+
+.detail-cover {
+  height: 170px;
+  margin: 15px 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: var(--main-light);
+}
+
+.detail-cover img {
+  height: 145px;
+  max-width: 90%;
+  object-fit: contain;
+}
+
+.detail-info h3 {
+  font-size: 20px;
+}
+
+.detail-info > p {
+  color: var(--sub-text-color);
+  font-size: 13px;
+}
+
+.detail-content {
+  padding: 12px;
+  margin: 15px 0;
+
+  background: var(--background-color);
+  border-radius: 4px;
+
+  font-size: 13px;
+}
+
+.detail-content p {
+  line-height: 1.6;
+}
+
+/* 생성 날짜 및 수정 날짜 */
+.date-info {
+  padding: 10px;
+  border-top: 1px solid var(--border-color);
+}
+
+.date-info p {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  color: var(--sub-text-color);
+  font-size: 11px;
+}
+
+.date-info strong {
+  color: var(--main-dark);
+}
+
+.date-info span {
+  text-align: right;
+}
+
+
+/* ========================================
+   17. 로딩 및 빈 목록
+======================================== */
+
+.empty-message {
+  padding: 30px;
+  color: var(--sub-text-color);
+  text-align: center;
+}
+
+
+/* ========================================
+   18. 테마 전환 버튼
+======================================== */
+
+/* 테마 버튼 전체 */
+.theme-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* 테마 버튼 */
+.theme-buttons button {
+  flex: 1;
+  min-width: 65px;
+
+  padding: 8px 5px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+
+  background: var(--card-color);
+  color: var(--text-color);
+
+  font-size: 11px;
+  transition: 0.2s;
+}
+
+/* 마우스 올렸을 때 */
+.theme-buttons button:hover {
+  background: var(--hover-color);
+  border-color: var(--main-color);
+}
+
+/* 다크모드 버튼 */
+.app-layout[data-theme="dark"] .theme-buttons button:last-child {
+  background: #222c25;
+  color: #e4ebe5;
+  border-color: #39483d;
+}
+
+/* ========================================
+   19. 반응형 화면
+======================================== */
+
+@media (max-width: 1000px) {
+
+  .book-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .popular-list {
+    grid-template-columns: 1fr;
+  }
+
+  .main-content {
+    padding: 25px;
+  }
+
+}
+
+@media (max-width: 700px) {
+
+  .sidebar {
+    width: 160px;
+    min-width: 160px;
+  }
+
+  .main-content {
+    padding: 20px 15px;
+  }
+
+  .book-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page-title h1 {
+    font-size: 25px;
+  }
+
+}
+
+@media (max-width: 500px) {
+
+  .app-layout {
+    display: block;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .profile {
+    display: none;
+  }
+
+  .top-header {
+    flex-direction: column;
+  }
+
+  .search-box,
+  .filter-button {
+    width: 100%;
+  }
+
+  .book-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px 10px;
+  }
+
+  .popular-section {
+    padding: 15px;
+  }
+
+}
+
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
