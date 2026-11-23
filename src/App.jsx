@@ -17,16 +17,15 @@ function App() {
   const [showCreate, setShowCreate] = useState(false)
   const [editBook, setEditBook] = useState(null)
   const [lightTheme, setLightTheme] = useState('sage')
-  const [darkMode, setDarkMode] = useState(false)
-  const [largeText, setLargeText] = useState(false)
-  const [language, setLanguage] = useState('ko')
+  
+  
+  
 
-  const theme = darkMode ? 'dark' : lightTheme
-  const isEnglish = language === 'en'
+  
 
   const selectLightTheme = (nextTheme) => {
     setLightTheme(nextTheme)
-    setDarkMode(false)
+    
   }
 
   // 도서 목록 조회
@@ -223,7 +222,7 @@ function App() {
   })
 
   return (
-    <div className="app-layout" data-theme={theme} data-large-text={largeText}>
+   <div className="app-layout" data-theme={lightTheme}>
       <aside className="sidebar">
         <div className="brand">
           <span className="brand-icon">B</span>
@@ -247,12 +246,7 @@ function App() {
             ⚙︎ Settings
           </button>
 
-          <div className="theme-buttons">
-            <button onClick={() => selectLightTheme('sage')}>Sage</button>
-            <button onClick={() => selectLightTheme('ivory')}>Ivory</button>
-            <button onClick={() => selectLightTheme('forest')}>Forest</button>
-            <button onClick={() => setDarkMode(true)}>Dark</button>
-          </div>
+        
         </nav>
       </aside>
 
@@ -263,7 +257,7 @@ function App() {
 
             <input
               type="text"
-              placeholder={isEnglish ? 'Search books or authors...' : '제목 또는 작가 검색'}
+              placeholder="제목 또는 작가 검색"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -292,33 +286,7 @@ function App() {
             <option value="시 / 희곡">시 / 희곡</option>
           </select>
 
-          <div className="reading-controls">
-            <button
-              type="button"
-              aria-pressed={largeText}
-              onClick={() => setLargeText((current) => !current)}
-            >
-              {isEnglish ? 'Large text' : '큰 글씨'}
-            </button>
-
-            <button
-              type="button"
-              aria-pressed={darkMode}
-              onClick={() => setDarkMode((current) => !current)}
-            >
-              {isEnglish ? 'Dark mode' : '다크 모드'}
-            </button>
-
-            <select
-              className="filter-button"
-              aria-label="언어 / Language"
-              value={language}
-              onChange={(event) => setLanguage(event.target.value)}
-            >
-              <option value="ko">한국어</option>
-              <option value="en">English</option>
-            </select>
-          </div>
+          
         </header>
 
         <section className="page-title">
@@ -374,40 +342,31 @@ function App() {
           </div>
 
           {loading ? (
-            <p className="empty-message" role="status">
-              {isEnglish ? 'Loading books…' : '도서 목록을 불러오는 중입니다.'}
-            </p>
-          ) : listError ? (
-            <p className="empty-message" role="alert">
-              {isEnglish
-                ? 'Could not load the books. Check that the server is running.'
-                : '도서 목록을 불러오지 못했습니다. 서버가 실행 중인지 확인해 주세요.'}
-            </p>
-          ) : (
-            <>
-              {books.length === 0 && (
-                <p className="empty-message">
-                  {isEnglish ? 'No books have been added.' : '등록된 도서가 없습니다.'}
-                </p>
-              )}
+  <p className="empty-message" role="status">
+    도서 목록을 불러오는 중입니다.
+  </p>
+) : listError ? (
+  <p className="empty-message" role="alert">
+    도서 목록을 불러오지 못했습니다. 서버가 실행 중인지 확인해 주세요.
+  </p>
+) : (
+  <>
+    {books.length === 0 && (
+      <p className="empty-message">등록된 도서가 없습니다.</p>
+    )}
 
-              {books.length > 0 && filteredBooks.length === 0 && (
-                <p className="empty-message">
-                  {isEnglish
-                    ? 'No books match your search or genre filter.'
-                    : '검색 조건에 맞는 도서가 없습니다.'}
-                </p>
-              )}
+    {books.length > 0 && filteredBooks.length === 0 && (
+      <p className="empty-message">검색 조건에 맞는 도서가 없습니다.</p>
+    )}
 
-              <BookList
-                language={language}
-                books={filteredBooks}
-                onSelect={setSelectedId}
-                onLike={handleLike}
-                onAdd={() => setShowCreate(true)}
-              />
-            </>
-          )}
+    <BookList
+      books={filteredBooks}
+      onSelect={setSelectedId}
+      onLike={handleLike}
+      onAdd={() => setShowCreate(true)}
+    />
+  </>
+)}
         </section>
       </main>
 
