@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import BookForm from './BookForm'
 
@@ -10,22 +9,35 @@ function BookCreate({ onCreate, onCancel }) {
   const [type, setType] = useState('로맨스')
   const [content, setContent] = useState('')
   const [coverImageUrl, setCoverImageUrl] = useState('')
+  const [error, setError] = useState('')
 
   // 등록 버튼 클릭
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (title.trim() === '' || author.trim() === '') {
-      alert('제목과 작가를 입력해주세요.')
+    if (title.trim() === '' || author.trim() === '' || content.trim() === '') {
+      setError('제목, 작가, 책 내용을 모두 입력해주세요.')
       return
     }
 
+    if (title.trim().length > 50) {
+      setError('제목은 50자 이내로 입력해주세요.')
+      return
+    }
+
+    if (author.trim().length > 30) {
+      setError('작가 이름은 30자 이내로 입력해주세요.')
+      return
+    }
+
+    setError('')
+
     const newBook = {
-      title: title,
-      author: author,
+      title: title.trim(),
+      author: author.trim(),
       type: type,
-      content: content,
-      coverImageUrl: coverImageUrl
+      content: content.trim(),
+      coverImageUrl: coverImageUrl.trim()
     }
 
     onCreate(newBook)
@@ -52,6 +64,8 @@ function BookCreate({ onCreate, onCancel }) {
             coverImageUrl={coverImageUrl}
             setCoverImageUrl={setCoverImageUrl}
           />
+
+          {error && <p className="form-error" style={{ color: '#d9534f' }}>{error}</p>}
 
           <div className="form-buttons">
             <button type="submit" className="save-button">

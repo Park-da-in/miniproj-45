@@ -87,6 +87,10 @@ function App() {
         body: JSON.stringify(bookData)
       })
 
+      if (!response.ok) {
+        throw new Error('도서 등록 실패')
+      }
+
       const data = await response.json()
       setBooks([...books, data])
       setShowCreate(false)
@@ -94,6 +98,7 @@ function App() {
       alert('도서가 등록되었습니다.')
     } catch (error) {
       console.log('도서 등록 오류:', error)
+      alert('도서 등록에 실패했습니다. 서버 연결을 확인해주세요.')
     }
   }
 
