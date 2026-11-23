@@ -5,34 +5,66 @@ import BookDetail from './components/BookDetail'
 import BookCreate from './components/BookCreate'
 import BookEdit from './components/BookEdit'
 
-function App() {
-  const API_URL = 'http://localhost:3000/books'
+const API_URL = 'http://localhost:3000/books'
 
+function App() {
   const [books, setBooks] = useState([])
   const [loading, setLoading] = useState(true)
+  const [listError, setListError] = useState(false)
   const [search, setSearch] = useState('')
   const [typeFilter, setTypeFilter] = useState('전체')
   const [selectedId, setSelectedId] = useState(null)
   const [showCreate, setShowCreate] = useState(false)
   const [editBook, setEditBook] = useState(null)
-  const [theme, setTheme] = useState('sage')
+  const [lightTheme, setLightTheme] = useState('sage')
+  const [darkMode, setDarkMode] = useState(false)
+  const [largeText, setLargeText] = useState(false)
+  const [language, setLanguage] = useState('ko')
 
-  // 도서 목록 조회
-  const fetchBooks = async () => {
-    try {
-      const response = await fetch(API_URL)
-      const data = await response.json()
-      setBooks(data)
-    } catch (error) {
-      console.log('도서 조회 오류:', error)
-      alert('서버 연결에 실패했습니다.')
-    } finally {
-      setLoading(false)
-    }
+  const theme = darkMode ? 'dark' : lightTheme
+  const isEnglish = language === 'en'
+
+  const selectLightTheme = (nextTheme) => {
+    setLightTheme(nextTheme)
+    setDarkMode(false)
   }
 
+  // 도서 목록 조회
   useEffect(() => {
+    const controller = new AbortController()
+
+    const fetchBooks = async () => {
+      try {
+        const response = await fetch(API_URL, { signal: controller.signal })
+
+        if (!response.ok) {
+          throw new Error(`도서 목록 조회 실패 (${response.status})`)
+        }
+
+        const data = await response.json()
+
+        if (!Array.isArray(data)) {
+          throw new Error('도서 목록 응답 형식 오류')
+        }
+
+        if (!controller.signal.aborted) {
+          setBooks(data)
+        }
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          console.error('도서 조회 오류:', error)
+          setListError(true)
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false)
+        }
+      }
+    }
+
     fetchBooks()
+
+    return () => controller.abort()
   }, [])
 
   // 도서 등록
@@ -191,7 +223,7 @@ function App() {
   })
 
   return (
-    <div className="app-layout" data-theme={theme}>
+    <div className="app-layout" data-theme={theme} data-large-text={largeText}>
       <aside className="sidebar">
         <div className="brand">
           <span className="brand-icon">B</span>
@@ -216,10 +248,10 @@ function App() {
           </button>
 
           <div className="theme-buttons">
-            <button onClick={() => setTheme('sage')}>Sage</button>
-            <button onClick={() => setTheme('ivory')}>Ivory</button>
-            <button onClick={() => setTheme('forest')}>Forest</button>
-            <button onClick={() => setTheme('dark')}>Dark</button>
+            <button onClick={() => selectLightTheme('sage')}>Sage</button>
+            <button onClick={() => selectLightTheme('ivory')}>Ivory</button>
+            <button onClick={() => selectLightTheme('forest')}>Forest</button>
+            <button onClick={() => setDarkMode(true)}>Dark</button>
           </div>
         </nav>
       </aside>
@@ -231,7 +263,7 @@ function App() {
 
             <input
               type="text"
-              placeholder="Search books or authors..."
+              placeholder={isEnglish ? 'Search books or authors...' : '제목 또는 작가 검색'}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -259,6 +291,34 @@ function App() {
             <option value="실용 / 취미">실용 / 취미</option>
             <option value="시 / 희곡">시 / 희곡</option>
           </select>
+
+          <div className="reading-controls">
+            <button
+              type="button"
+              aria-pressed={largeText}
+              onClick={() => setLargeText((current) => !current)}
+            >
+              {isEnglish ? 'Large text' : '큰 글씨'}
+            </button>
+
+            <button
+              type="button"
+              aria-pressed={darkMode}
+              onClick={() => setDarkMode((current) => !current)}
+            >
+              {isEnglish ? 'Dark mode' : '다크 모드'}
+            </button>
+
+            <select
+              className="filter-button"
+              aria-label="언어 / Language"
+              value={language}
+              onChange={(event) => setLanguage(event.target.value)}
+            >
+              <option value="ko">한국어</option>
+              <option value="en">English</option>
+            </select>
+          </div>
         </header>
 
         <section className="page-title">
@@ -314,16 +374,39 @@ function App() {
           </div>
 
           {loading ? (
-            <p className="empty-message">
-              도서 목록을 불러오는 중입니다.
+            <p className="empty-message" role="status">
+              {isEnglish ? 'Loading books…' : '도서 목록을 불러오는 중입니다.'}
+            </p>
+          ) : listError ? (
+            <p className="empty-message" role="alert">
+              {isEnglish
+                ? 'Could not load the books. Check that the server is running.'
+                : '도서 목록을 불러오지 못했습니다. 서버가 실행 중인지 확인해 주세요.'}
             </p>
           ) : (
-            <BookList
-              books={filteredBooks}
-              onSelect={setSelectedId}
-              onLike={handleLike}
-              onAdd={() => setShowCreate(true)}
-            />
+            <>
+              {books.length === 0 && (
+                <p className="empty-message">
+                  {isEnglish ? 'No books have been added.' : '등록된 도서가 없습니다.'}
+                </p>
+              )}
+
+              {books.length > 0 && filteredBooks.length === 0 && (
+                <p className="empty-message">
+                  {isEnglish
+                    ? 'No books match your search or genre filter.'
+                    : '검색 조건에 맞는 도서가 없습니다.'}
+                </p>
+              )}
+
+              <BookList
+                language={language}
+                books={filteredBooks}
+                onSelect={setSelectedId}
+                onLike={handleLike}
+                onAdd={() => setShowCreate(true)}
+              />
+            </>
           )}
         </section>
       </main>
